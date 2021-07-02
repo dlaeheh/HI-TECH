@@ -1,146 +1,113 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
- 
 <!DOCTYPE html>
 <html>
- 
 <head>
-    <meta charset="UTF-8">
-    <title>HI-TECH - Sign up</title>
-    <!-- css 가져오기 -->
-    <link rel="stylesheet" type="text/css" href="/coco/resources/semantic.min.css">
- 
-    <style type="text/css">
-        body {
-            background-color: #DADADA;
-        }
-        body>.grid {
-            height: 100%;
-        }
-        .image {
-            margin-top: -100px;
-        }
-        .column {
-            max-width: 1000px;
-        }
-        .view_btn {
-            cursor: pointer;
-        }
- 
-    </style>
+  <meta charset="utf-8"/>
+  <title>Cocoon</title>
 </head>
- 
 <body>
-    <div class="ui middle aligned center aligned grid">
-        <div class="column">
-            <h2 class="ui teal image header">
-                게시판 페이지
-            </h2>
-            <div class="ui large form">
-                <div class="ui stacked segment">
-                    <a href="/coco/write_bbs"><button class="ui fluid large teal submit button">게시글 작성하기</button></a>
-                    <table class="ui celled table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>제목</th>
-                                <th>등록자</th>
-                                <th>등록일</th>
-                            </tr>
-                        </thead>
-                        <tbody id="list">
-                        </tbody>
-                    </table>
-                </div>
- 
-                <div class="ui error message"></div>
- 
-            </div>
-        </div>
-    </div>
- 
-    <div class="ui modal" id='view_modal'>
-        <i class="close">x</i>
-        <div class="header" id="b_title">
-            
-        </div>
-        <div class="content">
-            <div class="description">
-                <p style = "text-align: right" id = "b_review"></p>
-                <div id = 'b_content'></div>
-            </div>
-        </div>
-        <div class="actions">
-            <div class="ui black deny button">
-                닫기
-            </div>
-        </div>
-    </div>
- 
-    <!-- js 가져오기 -->
-    <script src="/coco/resources/jquery3.3.1.min.js"></script>
-    <script src="/coco/resources/semantic.min.js"></script>
- 
-    <script>
-        $(document).ready(function() {
-            $.ajax({
-                type: "get",
-                url: "bbs_all",
-                success: function(data) {
-                    //데이터 만큼 폴문을 돌림
-                    for (var str in data) {
-                        //변수 tr에 속성을 data-id로 data[str]['b_no']를 넣어주고 id가 list인 태그에 추가
-                        var tr = $("<tr></tr>").attr("data-id", data[str]['b_no']).appendTo("#list");
-                        //tr에 td테이블 추가 및 클래스 추가 + 텍스트 수정
-                        $("<td></td>").text(data[str]['b_no']).addClass("view_btn").appendTo(tr);
-                        $("<td></td>").text(data[str]['b_title']).addClass("view_btn").appendTo(tr);
-                        $("<td></td>").text(data[str]['b_ownernick']).addClass("view_btn").appendTo(tr);
-                        $("<td></td>").text(FormatToUnixtime(data[str]['b_regdate'])).addClass("view_btn").appendTo(tr);
-                    }
-                },
-                error: function(error) {
-                    alert("오류 발생" + error);
-                }
-            });
- 
-            $(document).on("click", ".view_btn", function() {
-                //해당하는 태그 속성중 DATA-ID를 가져와서 B_NO에 담음
-                var b_no = $(this).parent().attr("data-id");
- 
-                $.ajax({
-                    type: "get",
-                    url: "get_bbs",
-                    data: {
-                        b_no: b_no
-                    },
-                    success: function(data) {
-                        //해당하는 ID에 텍스트문 변경
-                        $("#b_title").text(data['b_title']);
-                        $("#b_review").text(data['b_ownernick'] + " - " +  FormatToUnixtime(data['b_regdate']));
-                        $("#b_content").text(data['b_content']);
-                        //모달을 실행
-                        $('#view_modal').modal('show');
-                    },
-                    error: function(error) {
-                        alert("오류 발생" + error);
-                    }
-                });
-            });
- 
-            function FormatToUnixtime(unixtime) {
-                var u = new Date(unixtime);
-                return u.getUTCFullYear() +
-                    '-' + ('0' + u.getUTCMonth()).slice(-2) +
-                    '-' + ('0' + u.getUTCDate()).slice(-2) +
-                    ' ' + ('0' + u.getUTCHours()).slice(-2) +
-                    ':' + ('0' + u.getUTCMinutes()).slice(-2) +
-                    ':' + ('0' + u.getUTCSeconds()).slice(-2)
-            };
-        });
- 
-    </script>
+  
+  <section>
+    <h1>회원가입 페이지</h1>
+  </section>
+  
+  <section>
+    <form name="login" action="index.html" method="post">
+      아이디확인<br>
+      <input type="text" name="user_ID" placeholder="아이디 입력" >
+      <input type="button" name="user_IDcheck" value="아이디 확인">
+      <br>
+      비밀번호<br> 
+      <input type="password" name="user_PW1" value="123456"><br>
+      비밀번호 재확인<br> 
+      <input type="password" name="user_PW2" value="123456">
+      <input type="button" name="user_PWcheck" value="비밀번호 재확인">
+      <br><br>
+      이름<br>  <input type="text" name="user_name" value=""> <br>
+      생년월일<br> 
+      <select name="year">
+        <option value="">-- 선택 --</option>
+        <option value="1995">1995</option>
+        <option value="1996">1996</option>
+        <option value="1997">1997</option>
+        <option value="1998">1998</option>
+        <option value="1999">1999</option>
+        <option value="2000">2000</option>
+      </select>
+      <select name="month">
+        <option value="">-- 선택 --</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+      </select>
+      <select name="day">
+        <option value="">-- 선택 --</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+        <option value="13">13</option>
+        <option value="14">14</option>
+        <option value="15">15</option>
+        <option value="16">16</option>
+        <option value="17">17</option>
+        <option value="18">18</option>
+        <option value="19">19</option>
+        <option value="20">20</option>
+        <option value="21">21</option>
+        <option value="22">22</option>
+        <option value="23">23</option>
+        <option value="24">24</option>
+        <option value="25">25</option>
+        <option value="26">26</option>
+        <option value="27">27</option>
+        <option value="28">28</option>
+        <option value="29">29</option>
+        <option value="30">30</option>
+        <option value="31">31</option>
+      </select>
+      <br><br>
+      성별<br>  
+      <label for="man">남자</label>
+      <input type="radio" name="gender" value="m" id="man">
+      <label for="woman">여자</label>
+      <input type="radio" name="gender" value="m" id="woman"> <br><br>
+      이메일<br><input type="email" name="user_email" placeholder="email@gmail.com"><br><br>
+      휴대전화<br>  
+      <input type="text" name="user_phone" placeholder="010-****-****">
+      <input type="button" name="certification" value="인증번호 받기"><br>
+      <input type="text" name="certification" placeholder="인증번호를 입력하세요">
+      <input type="button" name="certification" value="확인"><br><br>
+      관심사<br> 
+      IT<input type="checkbox" name="check" value="hobby1">
+      보안<input type="checkbox" name="check" value="hobby2">
+      웹<input type="checkbox" name="check" value="hobby3">
+      서버<input type="checkbox" name="check" value="hobby4">
+      <br><br>
+      본인 사진 <br>
+      <input type="file" name="" value="">
+      <br><br><br>
+      <input type="submit" name="" value="제출">
+      
+    </form>
+  </section>
+  
+  
 </body>
- 
 </html>
-
-
-출처: https://alpreah.tistory.com/110 [생각에 취하는날]
