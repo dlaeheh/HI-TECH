@@ -1,7 +1,7 @@
-# 안내문
+# 404 Error
 
 <center>
-  <h1> 안녕하십니까. <br />
-  <strong>현재 본 기능은 개발중에 있습니다.</strong> <br />
-  저희 사이트를 이용해주셔서 진심으로 감사드립니다.</h1>
+  <h1> You can't access to this link. <br />
+  <strong>Please Check your link.</strong> <br />
+  Thank you.</h1>
 </center>
