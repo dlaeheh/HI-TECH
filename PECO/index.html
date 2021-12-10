@@ -101,7 +101,7 @@
     async function predict() {
         
         const prediction = await model.predict(webcam.canvas);
-        if(prediction[0].className == "종이상자" && prediction[0].probability.toFixed(2) == 1.00){
+        if(prediction[0].className == "cardboard" && prediction[0].probability.toFixed(2) == 1.00){
             labelContainer.childNodes[0].innerHTML = "종이상자 설명"
         } else if(prediction[1].className == "glass" && prediction[1].probability.toFixed(2) == 1.00){
             labelContainer.childNodes[0].innerHTML = "유리 설명"
